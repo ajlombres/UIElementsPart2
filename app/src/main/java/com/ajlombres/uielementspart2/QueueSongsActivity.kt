@@ -47,5 +47,49 @@ class QueueSongsActivity : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.remove_menu, menu)
     }
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
+        return when (item.itemId) {
+            R.id.removeSong -> {
+                val song = queuedSongs[menuInfo.position]
+                queuedSongs.removeAt(menuInfo.position) //gets the position and remove
+                adapter.notifyDataSetChanged() //Notify the adapter
+                Toast.makeText(this, "$song was removed from the queue.", Toast.LENGTH_SHORT).show()
+                //Notification that will be fired when the size of the array is == 0
+                if (queuedSongs.size <= 0) {
+                    notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+                    //Display the notification
+                    val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        notificationChannel = NotificationChannel(
+                                channelId,description,NotificationManager.IMPORTANCE_HIGH)
+                        notificationChannel.enableLights(true)
+                        notificationChannel.lightColor = Color.GREEN
+                        notificationChannel.enableVibration(false)
+                        notificationManager.createNotificationChannel(notificationChannel)
 
+                        builder = Notification.Builder(this,channelId)
+                                .setContentTitle("Your song queue is empty!")
+                                .setSmallIcon(R.drawable.ic_launcher_background)
+                                .setContentIntent(pendingIntent)
+                                .setContentText("Add songs to your queue to continue listening.")
+                    } else {
+                        builder = Notification.Builder(this)
+                                .setContentTitle("Your song queue is empty!")
+                                .setSmallIcon(R.drawable.ic_launcher_background)
+                                .setContentIntent(pendingIntent)
+                                .setContentText("Add songs to your queue to continue listening.")
+                    }
+                    notificationManager.notify(1234, builder.build())
+                }
+                true
+            }
+            else -> {
+                return super.onContextItemSelected(item)
+            }
+
+        }
+
+
+    }
 }

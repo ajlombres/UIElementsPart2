@@ -48,12 +48,12 @@ open class MainActivity : AppCompatActivity() {
 
 
     override fun onContextItemSelected(item: MenuItem): Boolean {
-        val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo //Allows us to inherit from the class Adapterview.AdapterCOntextMenuInfo to get the position
+        val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
         return when (item.itemId) {
             R.id.add_to_queue -> {
                 queuedSongs.add(array[menuInfo.position])
                 val snackbar = Snackbar.make(findViewById(R.id.songList), "${array[menuInfo.position]} was added to the queue.", Snackbar.LENGTH_LONG)
-                snackbar.setAction("Queue", View.OnClickListener { //Lambda function
+                snackbar.setAction("Queue", View.OnClickListener {
                     val intent = Intent(this, QueueSongsActivity::class.java)
                     startActivity(intent)
                 })
