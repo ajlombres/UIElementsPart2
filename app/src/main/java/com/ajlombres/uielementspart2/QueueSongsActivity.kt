@@ -21,7 +21,7 @@ val queuedSongs = ArrayList<String>()
 class QueueSongsActivity : AppCompatActivity() {
     lateinit var notificationManager: NotificationManager
     lateinit var notificationChannel: NotificationChannel
-    lateinit var builder : Notification.Builder
+    lateinit var builder: Notification.Builder
     private val channelId = "i.apps.notifications"
     private val description = "Test notification"
 
@@ -37,7 +37,6 @@ class QueueSongsActivity : AppCompatActivity() {
         registerForContextMenu(queuedSongsListView)
     }
 
-    //Context Menu
     override fun onCreateContextMenu(
             menu: ContextMenu?,
             v: View?,
@@ -47,6 +46,7 @@ class QueueSongsActivity : AppCompatActivity() {
         val inflater: MenuInflater = menuInflater
         inflater.inflate(R.menu.remove_menu, menu)
     }
+
     override fun onContextItemSelected(item: MenuItem): Boolean {
         val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo
         return when (item.itemId) {
@@ -62,13 +62,13 @@ class QueueSongsActivity : AppCompatActivity() {
                     val pendingIntent = PendingIntent.getActivity(applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT)
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                         notificationChannel = NotificationChannel(
-                                channelId,description,NotificationManager.IMPORTANCE_HIGH)
+                                channelId, description, NotificationManager.IMPORTANCE_HIGH)
                         notificationChannel.enableLights(true)
                         notificationChannel.lightColor = Color.GREEN
                         notificationChannel.enableVibration(false)
                         notificationManager.createNotificationChannel(notificationChannel)
 
-                        builder = Notification.Builder(this,channelId)
+                        builder = Notification.Builder(this, channelId)
                                 .setContentTitle("Your song queue is empty!")
                                 .setSmallIcon(R.drawable.ic_launcher_background)
                                 .setContentIntent(pendingIntent)
@@ -89,7 +89,5 @@ class QueueSongsActivity : AppCompatActivity() {
             }
 
         }
-
-
     }
 }
