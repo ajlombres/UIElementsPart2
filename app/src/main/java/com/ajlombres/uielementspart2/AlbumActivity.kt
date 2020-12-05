@@ -11,6 +11,8 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.GridView
 import android.widget.ListView
+import com.ajlombres.uielementspart2.databaseHandler.SongsDatabaseHandler
+import com.ajlombres.uielementspart2.models.Album
 
 var albumSongs = ArrayList<String>()
 var albumURI = String
@@ -28,9 +30,9 @@ class AlbumActivity : AppCompatActivity() {
 
         listView = findViewById(R.id.listView)
         //get the table handler
-        com.example.ui_elements_p2.databaseHandler = SongsDatabaseHandler(this)
+        com.ajlombres.uielementspart2.databaseHandler = SongsDatabaseHandler(this)
         //get the records
-        albums = com.example.ui_elements_p2.databaseHandler.readAlbum()
+        albums = com.ajlombres.uielementspart2.databaseHandler.readAlbum()
         //attach it to the adapter
         albumAdapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, albums)
         listView.adapter = albumAdapter

@@ -14,7 +14,7 @@ import android.widget.ListView
 import android.widget.Toast
 import android.widget.Toast.makeText
 
-class ReputationDetailsActivity : AppCompatActivity() {
+class FolkloreDetailsActivity : AppCompatActivity() {
     private lateinit var array: Array<String>
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -29,7 +29,7 @@ class ReputationDetailsActivity : AppCompatActivity() {
                 "This Is Why We Can't Have Nice Things", "Call It What You Want", "New Year's Day"
         )
 
-        val adp = ArrayAdapter(this@ReputationDetailsActivity, android.R.layout.simple_list_item_1, array)
+        val adp = ArrayAdapter(this@FolkloreDetailsActivity, android.R.layout.simple_list_item_1, array)
 
         listView.adapter = adp
 

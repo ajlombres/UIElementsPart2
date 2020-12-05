@@ -6,6 +6,7 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
+import com.ajlombres.uielementspart2.models.Album
 
 class AddAlbumActivity : AppCompatActivity() {
     lateinit var albumTitle: EditText

@@ -6,6 +6,8 @@ import android.widget.Button
 import android.widget.DatePicker
 import android.widget.EditText
 import android.widget.Toast
+import com.ajlombres.uielementspart2.databaseHandler.SongsDatabaseHandler
+import com.ajlombres.uielementspart2.models.Album
 
 class EditAlbumActivity : AppCompatActivity() {
 

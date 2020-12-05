@@ -1,4 +1,4 @@
-package com.ajlombres.uielementspart2
+package com.ajlombres.uielementspart2.databaseHandler
 
 import android.content.ContentValues
 import android.content.Context
@@ -6,8 +6,6 @@ import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
 import com.ajlombres.uielementspart2.models.Album
 import com.ajlombres.uielementspart2.models.AlbumSong
 import com.ajlombres.uielementspart2.models.Song
@@ -48,11 +46,6 @@ class SongsDatabaseHandler(var context: Context): SQLiteOpenHelper(context, DATA
             db.execSQL(secondQuery)
             db.execSQL(thirdQuery)
         }
-
-
-
-
-
 
     }
 
