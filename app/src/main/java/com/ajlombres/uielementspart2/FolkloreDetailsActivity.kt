@@ -8,6 +8,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.core.content.ContextCompat.startActivity
 import com.ajlombres.uielementspart2.models.Album
 import com.ajlombres.uielementspart2.models.AlbumSong
 import android.view.ContextMenu as ContextMenu1
@@ -82,16 +83,6 @@ class FolkloreDetailsActivity : AppCompatActivity() {
         }
 
     }
-    override fun onContextItemSelected(item: MenuItem): Boolean {
-
-        val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
-        val listPosition = info.position
-        val name = array[listPosition]
-
-        Toast.makeText(this@FolkloreDetailsActivity, "$name was added to queue", Toast.LENGTH_LONG).show()
-
-        return true
-    }
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.add_song_album, menu)
@@ -115,14 +106,13 @@ class FolkloreDetailsActivity : AppCompatActivity() {
 
 
 }
-}
-}
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_menu, menu)
         return true
     }
-
+}
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.go_to_albums_page -> {
@@ -140,4 +130,3 @@ class FolkloreDetailsActivity : AppCompatActivity() {
             else -> return super.onOptionsItemSelected(item)
         }
     }
-}

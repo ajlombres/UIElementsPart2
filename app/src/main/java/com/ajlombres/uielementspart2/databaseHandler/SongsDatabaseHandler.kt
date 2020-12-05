@@ -8,6 +8,9 @@ import android.database.sqlite.SQLiteException
 import android.database.sqlite.SQLiteOpenHelper
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.ajlombres.uielementspart2.models.Album
+import com.ajlombres.uielementspart2.models.AlbumSong
+import com.ajlombres.uielementspart2.models.Song
 
 class SongsDatabaseHandler(var context: Context): SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION ) {
     companion object{
