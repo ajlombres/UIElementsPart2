@@ -46,14 +46,11 @@ class EditSongActivity : AppCompatActivity() {
             } else {
                 Toast.makeText(this, "Oooops!", Toast.LENGTH_SHORT).show()
             }
-            songsAdapter.notifyDataSetChanged()
 
 
 
         }
 
 
-    }
-}
     }
 }
