@@ -7,15 +7,20 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
-import android.widget.ListView
-import android.widget.Toast
+import android.widget.*
+import com.ajlombres.uielementspart2.models.Album
+import com.ajlombres.uielementspart2.models.AlbumSong
 import android.view.ContextMenu as ContextMenu1
 
 class FolkloreDetailsActivity : AppCompatActivity() {
     private lateinit var array: Array<String>
-
+    lateinit var albumTitle: TextView
+    lateinit var albumReleaseDate: TextView
+    lateinit var albumSongsListView : ListView
+    lateinit var songsDatabaseHandler: SongsDatabaseHandler
+    lateinit var album : Album
+    //used for Album Songs
+    lateinit var albumSongs: MutableList<AlbumSong>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.folklore_details)
@@ -27,7 +32,16 @@ class FolkloreDetailsActivity : AppCompatActivity() {
                 "this is me trying", "illicit affairs", "invisible string", "mad woman", "epiphany",
                 "betty", "peace", "hoax"
         )
+        val album_id = intent.getIntExtra("album_id", 0)
 
+        albumTitle = findViewById(R.id.albumTitle_new)
+        albumReleaseDate = findViewById(R.id.releaseDate)
+        albumSongsListView = findViewById(R.id.albumSongsListView)
+        songsDatabaseHandler = SongsDatabaseHandler(this)
+
+        album = songsDatabaseHandler.readOneAlbum(album_id)
+
+        albumSongs = songsDatabaseHandler.readAlbumSongs(album.albumTitle)
         val adp = ArrayAdapter(this@FolkloreDetailsActivity, android.R.layout.simple_list_item_1, array)
 
         listView.adapter = adp
@@ -39,7 +53,8 @@ class FolkloreDetailsActivity : AppCompatActivity() {
             startActivity(intent)
         }
         registerForContextMenu(listView)
-
+        albumTitle.setText(album.albumTitle)
+        albumReleaseDate.setText(album.releaseDate)
     }
 
     override fun onCreateContextMenu(menu: ContextMenu1?, v: View?, menuInfo: ContextMenu1.ContextMenuInfo?) {
@@ -48,7 +63,25 @@ class FolkloreDetailsActivity : AppCompatActivity() {
         menu?.add(0, v!!.id, 0, "Add To Queue")
 
     }
+    override fun onContextItemSelected(item: MenuItem): Boolean {
+        val menuInfo = item.menuInfo as AdapterView.AdapterContextMenuInfo //Allows us to inherit from the class Adapterview.AdapterCOntextMenuInfo to get the position
+        return when(item.itemId) {
+            R.id.deleteSongOnAlbum -> {
+                val albumSong = albumSongs[menuInfo.position]
+                if(songsDatabaseHandler.deleteAlbumSongs(albumSong)){
+                    albumSongs.removeAt(menuInfo.position)
+                    albumSongsArrayAdapter.notifyDataSetChanged()
+                    Toast.makeText(this, "Song deleted.", Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(this, "Something went wrong.", Toast.LENGTH_SHORT).show()
+                }
 
+                true
+            }
+            else -> return super.onContextItemSelected(item)
+        }
+
+    }
     override fun onContextItemSelected(item: MenuItem): Boolean {
 
         val info = item.menuInfo as AdapterView.AdapterContextMenuInfo
@@ -59,7 +92,31 @@ class FolkloreDetailsActivity : AppCompatActivity() {
 
         return true
     }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.add_song_album, menu)
+        return true
+    }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId) {
+            R.id.addSongToAlbum -> {
+                val intent = Intent(this, AddSongToAlbumActivity::class.java)
+                val albumTitle = album.albumTitle
+                intent.putExtra("albumTitle", albumTitle)
+                startActivity(intent)
+                true
+            }
+
+        }
+
+        return super.onOptionsItemSelected(item)
+    }
+
+
+}
+}
+}
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         val inflater = menuInflater
         inflater.inflate(R.menu.menu_menu, menu)
